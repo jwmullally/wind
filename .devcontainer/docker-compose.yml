@@ -1,0 +1,25 @@
+version: '3.8'
+
+services: 
+  app:
+    build:
+      context: ${VSCODE_WORKSPACE_FOLDER:-..}
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/var/www/html:cached
+      #- ..:/var/www/html:z
+    command: sleep infinity
+
+  db:
+    image: docker.io/library/mariadb:10.4
+    restart: unless-stopped
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mariadb
+      MYSQL_DATABASE: mariadb
+      MYSQL_USER: mariadb
+      MYSQL_PASSWORD: mariadb
+
+volumes:
+  mariadb-data:
